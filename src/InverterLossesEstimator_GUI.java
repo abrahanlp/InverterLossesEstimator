@@ -1,6 +1,6 @@
 /**
  * Except as represented in this agreement,
- * all work product by FaultyProject is provided ​“AS IS”.
+ * all work product by FaultyProject is provided â€‹â€œAS ISâ€�.
  * Other than as provided in this agreement, FaultyProject
  * makes no other warranties, express or implied, and hereby
  * disclaims all implied warranties, including any warranty of
@@ -335,31 +335,31 @@ public class InverterLossesEstimator_GUI {
 		btnCalculate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				long t_start = System.currentTimeMillis();
-				estimatedLosses.setVg(Float.parseFloat(txtVgrid.getText()));
-				estimatedLosses.setF_grid(Float.parseFloat(txtFgrid.getText()));
-				estimatedLosses.setVdc(Float.parseFloat(txtVdc.getText()));
-				estimatedLosses.setF_sw(Float.parseFloat(txtFsw.getText()));
-				estimatedLosses.setPower(Float.parseFloat(txtPower.getText()));
-				estimatedLosses.setI_modulation(Float.parseFloat(txtImodulation.getText()));
+				estimatedLosses.setVg(Double.parseDouble(txtVgrid.getText()));
+				estimatedLosses.setF_grid(Double.parseDouble(txtFgrid.getText()));
+				estimatedLosses.setVdc(Double.parseDouble(txtVdc.getText()));
+				estimatedLosses.setF_sw(Double.parseDouble(txtFsw.getText()));
+				estimatedLosses.setPower(Double.parseDouble(txtPower.getText()));
+				estimatedLosses.setI_modulation(Double.parseDouble(txtImodulation.getText()));
 				
-				estimatedLosses.setRon(Float.parseFloat(txtRon.getText())/1000.0F);
-				estimatedLosses.setTdon(Float.parseFloat(txtTdon.getText())/1000000000.0F);
-				estimatedLosses.setTr(Float.parseFloat(txtTr.getText())/1000000000.0F);
-				estimatedLosses.setTdoff(Float.parseFloat(txtTdoff.getText())/1000000000.0F);
-				estimatedLosses.setTf(Float.parseFloat(txtTf.getText())/1000000000.0F);
-				estimatedLosses.setCrss(Float.parseFloat(txtCrss.getText())/1000000000000.0F);
-				estimatedLosses.setGm(Float.parseFloat(txtGm.getText()));
-				estimatedLosses.setVth(Float.parseFloat(txtVth.getText()));
-				estimatedLosses.setVgg(Float.parseFloat(txtVgg.getText()));
-				estimatedLosses.setRg(Float.parseFloat(txtRg.getText()));
+				estimatedLosses.setRon(Double.parseDouble(txtRon.getText())/1000.0F);
+				estimatedLosses.setTdon(Double.parseDouble(txtTdon.getText())/1000000000.0F);
+				estimatedLosses.setTr(Double.parseDouble(txtTr.getText())/1000000000.0F);
+				estimatedLosses.setTdoff(Double.parseDouble(txtTdoff.getText())/1000000000.0F);
+				estimatedLosses.setTf(Double.parseDouble(txtTf.getText())/1000000000.0F);
+				estimatedLosses.setCrss(Double.parseDouble(txtCrss.getText())/1000000000000.0F);
+				estimatedLosses.setGm(Double.parseDouble(txtGm.getText()));
+				estimatedLosses.setVth(Double.parseDouble(txtVth.getText()));
+				estimatedLosses.setVgg(Double.parseDouble(txtVgg.getText()));
+				estimatedLosses.setRg(Double.parseDouble(txtRg.getText()));
 				
 				estimatedLosses.calculateLosses();
 		        
-				float eon = estimatedLosses.getEon();
-				float eoff = estimatedLosses.getEoff();
-				float eron = estimatedLosses.getEron();
-				float eIndividual = eon + eoff + eron;
-				float eTotal = eIndividual*4;
+				double eon = estimatedLosses.getEon();
+				double eoff = estimatedLosses.getEoff();
+				double eron = estimatedLosses.getEron();
+				double eIndividual = eon + eoff + eron;
+				double eTotal = eIndividual*4;
 				lblPon.setText("Pon: " + String.format("%.03f", eon*4) + " W");
 				lblPoff.setText("Poff: " + String.format("%.03f", eoff*4) + " W");
 				lblPron.setText("Pron: " + String.format("%.03f", eron*4) + " W");

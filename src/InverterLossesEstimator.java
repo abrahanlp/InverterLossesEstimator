@@ -1,6 +1,6 @@
 /**
  * Except as represented in this agreement,
- * all work product by FaultyProject is provided ​“AS IS”.
+ * all work product by FaultyProject is provided â€‹â€œAS ISâ€�.
  * Other than as provided in this agreement, FaultyProject
  * makes no other warranties, express or implied, and hereby
  * disclaims all implied warranties, including any warranty of
@@ -24,17 +24,17 @@ import java.lang.Math;
  */
 public class InverterLossesEstimator {
 	//Transistor variables
-	private float ron, tdon, tr, tdoff, tf, crss, vth, vgg, gm, rg;
+	private double ron, tdon, tr, tdoff, tf, crss, vth, vgg, gm, rg;
 	//Grid and inverter parameter
-	private float vg, f_grid, vdc, f_sw, i_modulation, power;
+	private double vg, f_grid, vdc, f_sw, i_modulation, power;
 	
 	//Discrete interval
 	private int analysis_points;
-	private float delta;
+	private double delta;
 	private int deltas_tdon, deltas_tr, deltas_tdoff, deltas_tf;
 	
 	//Energy losses
-	float eon, eron, eoff;
+	double eon, eron, eoff;
 
 	/**
 	 * Class constructor
@@ -48,12 +48,12 @@ public class InverterLossesEstimator {
 	 * Energy Losses Calculate
 	 */
 	public void calculateLosses() {
-		float t_grid = 1/f_grid;
-		float w_grid = (float) (2 * Math.PI * f_grid);
-		float i_rms = power/vg;
-		float i_p = (float) (i_rms * Math.sqrt(2));
+		double t_grid = 1/f_grid;
+		double w_grid = (double) (2 * Math.PI * f_grid);
+		double i_rms = power/vg;
+		double i_p = (double) (i_rms * Math.sqrt(2));
 		
-		float t_sw = 1/f_sw;
+		double t_sw = 1/f_sw;
 		
 		delta = t_sw/analysis_points;
 		deltas_tdon = (int) Math.round(tdon / delta);
@@ -63,18 +63,18 @@ public class InverterLossesEstimator {
 		
 		int n = (int) (t_grid/delta);
 		
-		float t = 0;
-		float[] i_t = new float[n];
-		float[] modula = new float[n];
-		float[] carrier = new float[n];
+		double t = 0;
+		double[] i_t = new double[n];
+		double[] modula = new double[n];
+		double[] carrier = new double[n];
 		boolean[] trigger = new boolean[n];
-		float slope_carrier = 4/t_sw;
+		double slope_carrier = 4/t_sw;
 		
 		for (int i = 0; i < n; i++) {
 			//Generate current signal
-			i_t[i] = (float) (i_p * Math.sin(w_grid*t));
+			i_t[i] = (double) (i_p * Math.sin(w_grid*t));
 			//Generate modulator signal
-			modula[i] = (float) (i_modulation * Math.sin(w_grid*t));
+			modula[i] = (double) (i_modulation * Math.sin(w_grid*t));
 			//Generate carrier signal
 			carrier[i] = slope_carrier * ( (t_sw/2) - Math.abs(t % (2*(t_sw/2)) - (t_sw/2)) ) - 1;
 			
@@ -92,7 +92,7 @@ public class InverterLossesEstimator {
 		boolean sw_on = false;
 		int i = 0;
 		
-		float i_t_abs = 0.0F; //Temporal variable for absolute current value
+		double i_t_abs = 0.0F; //Temporal variable for absolute current value
 		
 		do {
 			if( (trigger[i] == true) && (sw_on == false) ) {		//Switch on losses
@@ -101,7 +101,7 @@ public class InverterLossesEstimator {
 				i_t_abs = Math.abs(i_t[i]);
 				eon += i_t_abs*vdc*tr/2;
 				//Voltage Fall
-				float tfv = (i_t_abs*ron - vdc) / ( (vgg - ((i_t_abs/gm) + vth))/(-crss*rg) );
+				double tfv = (i_t_abs*ron - vdc) / ( (vgg - ((i_t_abs/gm) + vth))/(-crss*rg) );
 				eon += i_t_abs*vdc*tfv/2;
 				int deltas_tfv = (int)Math.round(tfv/delta);
 				i = (i + deltas_tfv);
@@ -114,7 +114,7 @@ public class InverterLossesEstimator {
 				i_t_abs = Math.abs(i_t[i]);
 				eoff += (i_t_abs*i_t_abs)*ron*tdoff;
 				//%Voltage Rise
-				float trv = (i_t_abs*ron - vdc) / ((-rg*i_t_abs)/(rg*crss));
+				double trv = (i_t_abs*ron - vdc) / ((-rg*i_t_abs)/(rg*crss));
 				eoff += i_t_abs*vdc*trv/2;
 				int deltas_trv = (int)Math.round(trv/delta);
 				i = (i + deltas_trv);
@@ -136,96 +136,96 @@ public class InverterLossesEstimator {
 	/*
 	 * Getters and Setters
 	 */
-	public float getRon() {
+	public double getRon() {
 		return ron;
 	}
-	public void setRon(float ron) {
+	public void setRon(double ron) {
 		this.ron = ron;
 	}
-	public float getTdon() {
+	public double getTdon() {
 		return tdon;
 	}
-	public void setTdon(float tdon) {
+	public void setTdon(double tdon) {
 		this.tdon = tdon;
 	}
-	public float getTr() {
+	public double getTr() {
 		return tr;
 	}
-	public void setTr(float tr) {
+	public void setTr(double tr) {
 		this.tr = tr;
 	}
-	public float getTdoff() {
+	public double getTdoff() {
 		return tdoff;
 	}
-	public void setTdoff(float tdoff) {
+	public void setTdoff(double tdoff) {
 		this.tdoff = tdoff;
 	}
-	public float getTf() {
+	public double getTf() {
 		return tf;
 	}
-	public void setTf(float tf) {
+	public void setTf(double tf) {
 		this.tf = tf;
 	}
-	public float getCrss() {
+	public double getCrss() {
 		return crss;
 	}
-	public void setCrss(float crss) {
+	public void setCrss(double crss) {
 		this.crss = crss;
 	}
-	public float getVth() {
+	public double getVth() {
 		return vth;
 	}
-	public void setVth(float vth) {
+	public void setVth(double vth) {
 		this.vth = vth;
 	}
-	public float getVgg() {
+	public double getVgg() {
 		return vgg;
 	}
-	public void setVgg(float vgg) {
+	public void setVgg(double vgg) {
 		this.vgg = vgg;
 	}
-	public float getGm() {
+	public double getGm() {
 		return gm;
 	}
-	public void setGm(float gm) {
+	public void setGm(double gm) {
 		this.gm = gm;
 	}
-	public float getRg() {
+	public double getRg() {
 		return rg;
 	}
-	public void setRg(float rg) {
+	public void setRg(double rg) {
 		this.rg = rg;
 	}
-	public float getVg() {
+	public double getVg() {
 		return vg;
 	}
-	public void setVg(float vg) {
+	public void setVg(double vg) {
 		this.vg = vg;
 	}
-	public float getF_grid() {
+	public double getF_grid() {
 		return f_grid;
 	}
-	public void setF_grid(float f_grid) {
+	public void setF_grid(double f_grid) {
 		this.f_grid = f_grid;
 	}
-	public float getVdc() {
+	public double getVdc() {
 		return vdc;
 	}
-	public void setVdc(float vdc) {
+	public void setVdc(double vdc) {
 		this.vdc = vdc;
 	}
-	public float getF_sw() {
+	public double getF_sw() {
 		return f_sw;
 	}
-	public void setF_sw(float f_sw) {
+	public void setF_sw(double f_sw) {
 		this.f_sw = f_sw;
 	}
 
-	public float getPower() {
+	public double getPower() {
 		return power;
 	}
 
-	public void setPower(float power) {
+	public void setPower(double power) {
 		this.power = power;
 	}
 
@@ -237,23 +237,23 @@ public class InverterLossesEstimator {
 		this.analysis_points = analysis_points;
 	}
 
-	public float getI_modulation() {
+	public double getI_modulation() {
 		return i_modulation;
 	}
 
-	public void setI_modulation(float i_modulation) {
+	public void setI_modulation(double i_modulation) {
 		this.i_modulation = i_modulation;
 	}
 
-	public float getEon() {
+	public double getEon() {
 		return eon;
 	}
 
-	public float getEron() {
+	public double getEron() {
 		return eron;
 	}
 
-	public float getEoff() {
+	public double getEoff() {
 		return eoff;
 	}
 }
